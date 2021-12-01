@@ -1,10 +1,10 @@
 import React from 'react';
 import { jsx } from '@emotion/react'
 import CheckboxMUI, { CheckboxProps } from '@mui/material/Checkbox';
-import { Typography } from '@mui/material';
+import { FormControlLabel, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 
-type Props = { label: string } & CheckboxProps;
+type Props = { label: string, labelPlacement: 'end' | 'start' | 'top' | 'bottom' } & CheckboxProps;
 
 const CheckboxWrapper = styled('div')`
   display: flex;
@@ -12,14 +12,15 @@ const CheckboxWrapper = styled('div')`
   align-items: center;
 `
 
-const Checkbox = ({label, ...props}: Props) => {
+const Checkbox = ({ label, labelPlacement = 'end', ...props }: Props) => {
   return (
-    <CheckboxWrapper>
-      <Typography>
-        {label}
-      </Typography>
-      <CheckboxMUI {...props} />
-    </CheckboxWrapper>
+    <FormControlLabel
+      control={<CheckboxMUI
+        {...props}
+      />}
+      label={label}
+      labelPlacement={labelPlacement}
+    />
   )
 };
 
