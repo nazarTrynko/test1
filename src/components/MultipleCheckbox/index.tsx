@@ -15,7 +15,7 @@ type Props = {
   onChange: () => void;
 } & CheckboxProps;
 
-const MultipleCheckbox = ({ label, options, ...props }: Props) => {
+const MultipleCheckbox = ({ value, label, options, ...props }: Props) => {
   return (
     <div>
       <Typography>{label}</Typography>
