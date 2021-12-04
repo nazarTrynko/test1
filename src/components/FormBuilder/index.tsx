@@ -1,59 +1,18 @@
 import React, { useMemo } from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import * as yup from "yup";
 
-import { ConfigOption, FieldKeys } from "../../common/interfaces";
-import { initialValues, typesMapToYup } from "../../constants";
-import Checkbox from "../Checkbox";
-import MultipleCheckbox from "../MultipleCheckbox";
-import RadioGroup from "../RadioGroup";
-import Select from "../Select";
+import { Config } from "../../common/interfaces";
 import { FieldWrapper } from "./styled";
-
-enum FieldComponentsEnum {
-  TEXT = "text",
-  CHECKBOX_SINGLE = "checkbox_single",
-  MULTIPLE_CHECKBOX = "checkbox_multiple",
-  RADIO = "radio",
-  SELECT = "select",
-}
-
-const FieldComponents = new Map<FieldComponentsEnum, any>([
-  [FieldComponentsEnum.TEXT, TextField],
-  [FieldComponentsEnum.CHECKBOX_SINGLE, Checkbox],
-  [FieldComponentsEnum.MULTIPLE_CHECKBOX, MultipleCheckbox],
-  [FieldComponentsEnum.RADIO, RadioGroup],
-  [FieldComponentsEnum.SELECT, Select],
-]);
-
-type Config = Array<ConfigOption>;
+import { getInitialValues, getValidationSchema } from "../../common/utils";
+import { FieldComponents, FieldComponentsEnum } from "../../constants";
 
 interface Props {
   config: Config;
 }
 
-const getValidationSchema = (config: Array<ConfigOption>) => {
-  return yup.object().shape(
-    config.reduce(
-      (prev: { [key: string]: yup.BaseSchema }, curr: ConfigOption) => {
-        const validationField = typesMapToYup.get(curr.key)!;
-
-        if (curr.required) {
-          prev[curr.key] = validationField.required();
-        } else {
-          prev[curr.key] = validationField;
-        }
-
-        return prev;
-      },
-      {} as { [key: string]: yup.BaseSchema }
-    )
-  );
-};
-
 const FormBuilder = ({ config }: Props) => {
+  const initialValues = useMemo(() => getInitialValues(config), []);
   const validationSchema = useMemo(() => getValidationSchema(config), []);
   const formik = useFormik({
     initialValues,
@@ -65,19 +24,16 @@ const FormBuilder = ({ config }: Props) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      {config.map((field) => {
-        const Component = FieldComponents.get(
-          field.type as FieldComponentsEnum
-        );
-        const key = field.key as FieldKeys;
+      {config.map(({ key, label, options, type }) => {
+        const Component = FieldComponents.get(type as FieldComponentsEnum);
 
         return (
-          <FieldWrapper key={field.key}>
+          <FieldWrapper key={key}>
             <Component
               fullWidth
-              name={field.key}
-              label={field.label}
-              options={field.options}
+              name={key}
+              label={label}
+              options={options}
               value={formik.values[key]}
               error={formik.touched[key] && Boolean(formik.errors[key])}
               onChange={formik.handleChange}
