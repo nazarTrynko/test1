@@ -1,27 +1,20 @@
-import React from 'react';
-import { jsx } from '@emotion/react'
-import CheckboxMUI, { CheckboxProps } from '@mui/material/Checkbox';
-import { FormControlLabel, Typography } from '@mui/material';
-import styled from '@emotion/styled';
+import React from "react";
+import CheckboxMUI, { CheckboxProps } from "@mui/material/Checkbox";
+import { FormControlLabel } from "@mui/material";
 
-type Props = { label: string, labelPlacement: 'end' | 'start' | 'top' | 'bottom' } & CheckboxProps;
+type Props = {
+  label: string;
+  labelPlacement: "end" | "start" | "top" | "bottom";
+} & CheckboxProps;
 
-const CheckboxWrapper = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-
-const Checkbox = ({ label, labelPlacement = 'end', ...props }: Props) => {
+const Checkbox = ({ label, labelPlacement = "end", ...props }: Props) => {
   return (
     <FormControlLabel
-      control={<CheckboxMUI
-        {...props}
-      />}
+      control={<CheckboxMUI {...props} />}
       label={label}
       labelPlacement={labelPlacement}
     />
-  )
+  );
 };
 
 export default Checkbox;
