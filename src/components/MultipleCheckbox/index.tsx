@@ -10,13 +10,12 @@ type Option = {
 };
 
 type Props = {
-  value: string[];
   label: string;
   options: Array<Option>;
-  onChange: (s: any) => void;
+  onChange: () => void;
 } & CheckboxProps;
 
-const MultipleCheckbox = ({ value, label, options, ...props }: Props) => {
+const MultipleCheckbox = ({ label, options, ...props }: Props) => {
   return (
     <div>
       <Typography>{label}</Typography>

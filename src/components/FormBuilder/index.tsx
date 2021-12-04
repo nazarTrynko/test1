@@ -1,7 +1,7 @@
+import React, { useMemo } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import React, { useMemo } from "react";
 import * as yup from "yup";
 
 import { ConfigOption, FieldKeys } from "../../common/interfaces";
@@ -38,7 +38,7 @@ const getValidationSchema = (config: Array<ConfigOption>) => {
   return yup.object().shape(
     config.reduce(
       (prev: { [key: string]: yup.BaseSchema }, curr: ConfigOption) => {
-        const validationField = typesMapToYup.get(curr.key);
+        const validationField = typesMapToYup.get(curr.key)!;
 
         if (curr.required) {
           prev[curr.key] = validationField.required();

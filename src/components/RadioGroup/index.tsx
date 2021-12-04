@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { css } from "@emotion/css";
+
 import { Option } from "../../common/interfaces";
 import { colorMap } from "../../colorMap";
 
@@ -20,7 +21,7 @@ const RadioGroup = ({
   error: boolean;
   options: Array<Option<boolean>>;
   label: string;
-  onChange: any;
+  onChange: () => void;
 }) => {
   const errorStyle = error ? { color: colorMap.ERROR } : {};
 
@@ -30,7 +31,6 @@ const RadioGroup = ({
       <RadioGroupMUI
         row
         name={name}
-        defaultValue={undefined}
         onChange={onChange}
       >
         {options.map((option, index) => (

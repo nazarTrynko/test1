@@ -1,6 +1,7 @@
 import React from "react";
 import SelectMUI from "@mui/material/Select";
 import { FormControl, InputLabel, MenuItem } from "@mui/material";
+
 import { Option } from "../../common/interfaces";
 
 const Select = ({
@@ -14,7 +15,7 @@ const Select = ({
   label: string;
   value: string;
   options: Array<Option<string>>;
-  onChange: any;
+  onChange: () => void;
 }) => {
   return (
     <FormControl fullWidth>
